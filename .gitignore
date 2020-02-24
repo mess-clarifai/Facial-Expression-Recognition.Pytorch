@@ -1,5 +1,8 @@
 # macOS
 .DS_Store
 
+# python
+__pycache__/
+
 # project
 FER2013_VGG19/
