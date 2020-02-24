@@ -12,6 +12,7 @@ import os
 from torch.autograd import Variable
 
 import transforms as transforms
+import skimage
 from skimage import io
 from skimage.transform import resize
 from models import *
@@ -26,9 +27,9 @@ transform_test = transforms.Compose([
 def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.299, 0.587, 0.114])
 
-raw_img = io.imread('images/2.jpg')
+raw_img = skimage.io.imread('images/2.jpg')
 gray = rgb2gray(raw_img)
-gray = resize(gray, (48,48), mode='symmetric').astype(np.uint8)
+gray = skimage.transform.resize(gray, (48,48), mode='symmetric').astype(np.uint8)
 
 img = gray[:, :, np.newaxis]
 
