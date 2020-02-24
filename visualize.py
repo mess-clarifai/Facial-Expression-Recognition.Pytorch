@@ -12,8 +12,9 @@ import os
 from torch.autograd import Variable
 
 import transforms as transforms
+import skimage
 from skimage import io
-from skimage.transform import resize
+from skimage import transform
 from models import *
 
 cut_size = 44
@@ -28,9 +29,9 @@ def rgb2gray(rgb):
 
 
 test_image_path = os.path.join('images', '1.jpg')
-raw_img = io.imread(test_image_path)  # skimage
+raw_img = skimage.io.imread(test_image_path)  # skimage
 gray = rgb2gray(raw_img)
-gray = resize(gray, (48,48), mode='symmetric').astype(np.uint8)  # skimage
+gray = skimage.transform.resize(gray, (48,48), mode='symmetric').astype(np.uint8)  # skimage
 
 img = gray[:, :, np.newaxis]
 
