@@ -26,7 +26,9 @@ transform_test = transforms.Compose([
 def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.299, 0.587, 0.114])
 
-raw_img = io.imread('images/2.jpg')  # skimage
+
+test_image_path = os.path.join('images', '1.jpg')
+raw_img = io.imread(test_image_path)  # skimage
 gray = rgb2gray(raw_img)
 gray = resize(gray, (48,48), mode='symmetric').astype(np.uint8)  # skimage
 
@@ -101,7 +103,10 @@ plt.tight_layout()
 
 #plt.show()
 os.makedirs('images/results', exist_ok=True)
-plt.savefig(os.path.join('images/results/l.png'))
+path, file = os.path.split(test_image_path)
+
+results_path = os.path.join('images', 'results', 'results_' + file)
+plt.savefig(results_path)
 plt.close()
 
-print("The Expression is %s" %str(class_names[int(predicted.cpu().numpy())]))
+print(f"The expression in {test_image_path} is {str(class_names[int(predicted.cpu().numpy())])}")
