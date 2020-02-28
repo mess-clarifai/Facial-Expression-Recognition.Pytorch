@@ -15,7 +15,9 @@ import transforms as transforms
 import skimage
 from skimage import io
 from skimage import transform
-from models import *
+
+# from models import VGG
+import models
 
 cut_size = 44
 
@@ -28,7 +30,7 @@ def rgb2gray(rgb):
     return np.dot(rgb[...,:3], [0.299, 0.587, 0.114])
 
 
-test_image_path = os.path.join('images', '1.jpg')
+test_image_path = os.path.join('images', '3.jpg')
 raw_img = skimage.io.imread(test_image_path)  # skimage
 gray = rgb2gray(raw_img)
 gray = skimage.transform.resize(gray, (48,48), mode='symmetric').astype(np.uint8)  # skimage
@@ -41,7 +43,7 @@ inputs = transform_test(img)
 
 class_names = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
-net = VGG('VGG19')
+net = models.VGG('VGG19')
 if torch.cuda.is_available():
     checkpoint = torch.load(os.path.join('FER2013_VGG19', 'PrivateTest_model.t7'))
 else:
