@@ -8,7 +8,8 @@ import torch.optim as optim
 import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
 import torchvision
-import transforms as transforms
+# import transforms as transforms
+from torchvision import transforms
 import numpy as np
 import os
 import argparse
@@ -70,7 +71,7 @@ if opt.resume:
     print('==> Resuming from checkpoint..')
     assert os.path.isdir(path), 'Error: no checkpoint directory found!'
     checkpoint = torch.load(os.path.join(path,'Test_model.t7'))
-    
+
     net.load_state_dict(checkpoint['net'])
     best_Test_acc = checkpoint['best_Test_acc']
     best_Test_acc_epoch = checkpoint['best_Test_acc_epoch']

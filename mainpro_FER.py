@@ -8,7 +8,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
 import torchvision
-import transforms as transforms
+from torchvision import transforms
 import numpy as np
 import os
 import argparse
@@ -116,7 +116,7 @@ def train(epoch):
         loss.backward()
         utils.clip_gradient(optimizer, 0.1)
         optimizer.step()
-        train_loss += loss.data[0]
+        train_loss += loss.data.item()
         _, predicted = torch.max(outputs.data, 1)
         total += targets.size(0)
         correct += predicted.eq(targets.data).cpu().sum()
@@ -184,7 +184,7 @@ def PrivateTest(epoch):
         outputs = net(inputs)
         outputs_avg = outputs.view(bs, ncrops, -1).mean(1)  # avg over crops
         loss = criterion(outputs_avg, targets)
-        PrivateTest_loss += loss.data[0]
+        PrivateTest_loss += loss.data.item()
         _, predicted = torch.max(outputs_avg.data, 1)
         total += targets.size(0)
         correct += predicted.eq(targets.data).cpu().sum()
