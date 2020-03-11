@@ -4,6 +4,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
+from torchvision import transforms
+
 
 cfg = {
     'VGG11': [64, 'M', 128, 'M', 256, 256, 'M', 512, 512, 'M', 512, 512, 'M'],
@@ -47,7 +49,7 @@ class VGG19(nn.Module):
     the platform
     """
     def __init__(self):
-        super(VGG, self).__init__()
+        super(VGG19, self).__init__()
         self.vgg_name = 'VGG19'
         self.features = self._make_layers(cfg[self.vgg_name])
         self.classifier = nn.Linear(512, 7)

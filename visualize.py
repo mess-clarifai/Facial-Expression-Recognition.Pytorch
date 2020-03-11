@@ -11,7 +11,8 @@ import torch.nn.functional as F
 import os
 from torch.autograd import Variable
 
-import transforms as transforms
+# import transforms as transforms
+from torchvision import transforms
 import skimage
 from skimage import io
 from skimage import transform
@@ -32,6 +33,7 @@ def rgb2gray(rgb):
 
 test_image_path = os.path.join('images', '3.jpg')
 raw_img = skimage.io.imread(test_image_path)  # skimage
+
 gray = rgb2gray(raw_img)
 gray = skimage.transform.resize(gray, (48,48), mode='symmetric').astype(np.uint8)  # skimage
 
@@ -39,11 +41,16 @@ img = gray[:, :, np.newaxis]
 
 img = np.concatenate((img, img, img), axis=2)
 img = Image.fromarray(img)
+
+print(len(img.mode), img.size)
+
 inputs = transform_test(img)
+
+print(inputs.size())
 
 class_names = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 
-net = models.VGG('VGG19')
+net = models.VGG19()
 if torch.cuda.is_available():
     checkpoint = torch.load(os.path.join('FER2013_VGG19', 'PrivateTest_model.t7'))
 else:
@@ -66,6 +73,10 @@ if torch.cuda.is_available():
 torch.no_grad()
 inputs = Variable(inputs)
 outputs = net(inputs)
+
+print(outputs)
+
+print(outputs.size())
 
 outputs_avg = outputs.view(ncrops, -1).mean(0)  # avg over crops
 
